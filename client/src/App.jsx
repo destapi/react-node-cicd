@@ -1,22 +1,26 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import { getUsers } from './service';
+import { fetchTodos } from './service';
 
 function App() {
-  const [names, setNames] = useState([]);
+  const [todos, setTodos] = useState([]);
 
   useEffect(() => {
 
-    async function onMount(){
-      const users = await getUsers();
-      setNames(users || []);
+    async function onMount() {
+      const todos = await fetchTodos();
+      setTodos(todos || []);
     }
     onMount()
   }, [])
 
   return (
     <ul>
-      {names.map(({id, name}) => <li key={id}>{name}</li>)}
+      {todos.map(({ id, task, completed }) => 
+
+        <li style={{ textDecoration: completed ? "line-through" : "none" }} key={id}>{task}</li>
+
+      )}
     </ul>
   )
 }
